@@ -279,7 +279,7 @@ export default function NewPatient() {
               p: 3,
             }}
           >
-            <h1>ENTER PATIENT'S PERSONAL DETAILS</h1>
+            <h1>ENTER PATIENTS PERSONAL DETAILS</h1>
             <div>
               <FormControl sx={{ m: 1, width: "50ch" }} variant="outlined">
                 <OutlinedInput
@@ -361,7 +361,7 @@ export default function NewPatient() {
               p: 3,
             }}
           >
-            <h1>ENTER PATIENT'S VITAL SIGNS</h1>
+            <h1>ENTER PATIENTS VITAL SIGNS</h1>
             <div>
               <FormControl sx={{ m: 1, width: "20ch" }} variant="outlined">
                 <OutlinedInput
