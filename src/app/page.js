@@ -17,11 +17,25 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Link from "next/link";
+import Web3 from "web3";
 
 const drawerWidth = 240;
 const navItems = ["CONNECT WALLET", "LOGIN"];
 
 export default function Home(props) {
+  const connectWalletHandler = () => {
+    let web3;
+    if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
+      console.log("asds");
+      web3 = new Web3(window.web3.currentProvider); // We are using the current provider that Metamask has injected in the web page. The reason is because it accesses Rinkeby
+    } else {
+      const provider = new Web3.providers.HttpProvider(
+        "https://sepolia.infura.io/v3/42e02b49638343bfa66c0f72f302669f"
+      );
+      web3 = new Web3(provider);
+    }
+  };
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -77,6 +91,7 @@ export default function Home(props) {
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             <Button
+              onClick={connectWalletHandler}
               sx={{
                 backgroundColor: "white",
                 color: "black",
@@ -85,7 +100,9 @@ export default function Home(props) {
             >
               CONNECT WALLET
             </Button>
-            <Button sx={{ color: "#fff", margin: "0 15px" }}>LOGIN</Button>
+            <Link href={"/api/auth/signout"}>
+              <Button sx={{ color: "#fff", margin: "0 15px" }}>LOGOUT</Button>
+            </Link>
           </Box>
         </Toolbar>
       </AppBar>
