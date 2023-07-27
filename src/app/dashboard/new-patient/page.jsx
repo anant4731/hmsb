@@ -228,7 +228,7 @@ export default function NewPatient() {
   );
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box component="main" sx={{ p: 3, width: "100%" }}>
       <CssBaseline />
 
       <Box
