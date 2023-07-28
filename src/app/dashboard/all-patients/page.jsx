@@ -36,8 +36,8 @@ export default function AllPatients() {
         }}
       >
         {patients.map((text, index) => (
-          <Box height={"300px"} width={"600px"}>
-            <h3 key={text.address}>{text.username}</h3>
+          <Box key={text.address} height={"300px"} width={"600px"}>
+            <h3 >{text.username}</h3>
             <p>{text.address}</p>
           </Box>
         ))}
