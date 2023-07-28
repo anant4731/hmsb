@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-import axios from "axios";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
@@ -22,10 +21,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button } from "@mui/material";
 
 import web3 from "@/app/web3";
-import hmsb from "@/app/ethereum/instance";
-// import hmsb from '@/app/ethereum/contracts'
-// import contract from '../../../../../ethereum/contracts/hsmb.sol'
-// import hmsb
+import factory from "@/app/ethereum/factory";
+import patient from "@/app/ethereum/patient";
 
 const drawerWidth = 340;
 
@@ -73,9 +70,6 @@ export default function NewPatient() {
       oxygenSaturation,
     };
     setData({ ...data, vitalSignsData });
-    // setGender("male");
-    // setPhone(0);
-    // setUsername("");
   };
 
   const onSendPatientData = async (e) => {
@@ -83,32 +77,24 @@ export default function NewPatient() {
       const accounts = await web3.eth.getAccounts();
       console.log(accounts);
       console.log(data.basicDetailsdata.username);
-      await hmsb.methods
+      await factory.methods
+        .createNewPatient(data.basicDetailsdata.username)
+        .send({ from: accounts[0] });
+      const allPatients = await factory.methods.getAllPatients().call();
+      const newPatientAddress = allPatients[allPatients.length - 1];
+      console.log(newPatientAddress);
+      const newPatient = patient(newPatientAddress);
+      console.log(newPatient);
+      await newPatient.methods
         .setUsername(data.basicDetailsdata.username)
         .send({ from: accounts[0] });
-      // Router.replaceRoute(`/campaigns/${this.props.address}`);
+
+      const newPatientUsername = await newPatient.methods.username().call();
+      console.log(newPatientUsername);
     } catch (err) {
       console.log(err);
-      // this.setState({ errorMessage: err.message });
     }
-    try {
-      const accounts = await web3.eth.getAccounts();
-      const u = await hmsb.methods.username().call();
-      console.log(u);
-      // Router.replaceRoute(`/campaigns/${this.props.address}`);
-    } catch (err) {
-      console.log(err);
-      // this.setState({ errorMessage: err.message });
-    }
-    // e.preventDefault();
-    // const patient = { username, weight, height };
-    // try {
-    //   const res = await axios.post("/api/patients/newPatient", patient);
-    //   console.log(res.data);
-    //   // router
-    // } catch (error) {
-    //   console.log("something went wrong ", error);
-    // }
+
   };
 
   const drawer = (
