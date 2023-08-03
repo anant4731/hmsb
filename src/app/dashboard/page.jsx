@@ -39,7 +39,7 @@ export default function dashboard() {
           </CardContent>
         </Card>
       </Link>
-      <Link href={"dashboard/patient"}>
+      <Link href={"dashboard/search-patient"}>
         <Card
           sx={{
             borderRadius: "20px",
