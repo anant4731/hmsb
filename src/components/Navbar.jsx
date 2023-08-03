@@ -51,7 +51,7 @@ export default function Navbar(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex", zIndex: "19999" }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar sx={{ backgroundColor: "black" }} component="nav">
         <Toolbar>

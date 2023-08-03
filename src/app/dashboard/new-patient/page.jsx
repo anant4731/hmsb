@@ -18,11 +18,12 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Button } from "@mui/material";
+import { Button, Toolbar } from "@mui/material";
 
 import web3 from "@/app/web3";
 import factory from "@/app/ethereum/factory";
 import patient from "@/app/ethereum/patient";
+import NewPatientForm from "@/components/hero/newPatientForm/NewPatientFrom";
 
 const drawerWidth = 340;
 
@@ -78,7 +79,7 @@ export default function NewPatient() {
       console.log(accounts);
       console.log(data.basicDetailsdata.username);
       await factory.methods
-        .createNewPatient(data.basicDetailsdata.username)
+        .createNewPatient()
         .send({ from: accounts[0] });
       const allPatients = await factory.methods.getAllPatients().call();
       const newPatientAddress = allPatients[allPatients.length - 1];
@@ -94,7 +95,6 @@ export default function NewPatient() {
     } catch (err) {
       console.log(err);
     }
-
   };
 
   const drawer = (
@@ -214,260 +214,273 @@ export default function NewPatient() {
   );
 
   return (
-    <Box component="main" sx={{ p: 3, width: "100%" }}>
-      <CssBaseline />
+    <NewPatientForm />
+    //   <Box component="main" sx={{ p: 3, width: "100%" }}>
+    //     <CssBaseline />
 
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-        >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Box>
+    //     <Box
+    //       component="nav"
+    //       sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+    //       aria-label="mailbox folders"
+    //     >
+    //       <Drawer
+    //         variant="temporary"
+    //         open={mobileOpen}
+    //         onClose={handleDrawerToggle}
+    //         ModalProps={{
+    //           keepMounted: true,
+    //         }}
+    //         sx={{
+    //           display: { xs: "block", sm: "none" },
+    //           "& .MuiDrawer-paper": {
+    //             boxSizing: "border-box",
+    //             width: drawerWidth,
+    //           },
+    //         }}
+    //       >
+    //         {drawer}
+    //       </Drawer>
+    //       <Drawer
+    //         variant="permanent"
+    //         sx={{
+    //           display: { xs: "none", sm: "block" },
+    //           "& .MuiDrawer-paper": {
+    //             boxSizing: "border-box",
+    //             width: drawerWidth,
+    //           },
+    //         }}
+    //         open
+    //       >
+    //         {drawer}
+    //       </Drawer>
+    //     </Box>
 
-      {openedTab === 0 && (
-        <form onSubmit={submitBasicDetailsForm}>
-          <Box
-            component="main"
-            sx={{
-              textAlign: "center",
-              flexGrow: 1,
-              p: 3,
-            }}
-          >
-            <h1>ENTER PATIENTS PERSONAL DETAILS</h1>
-            <div>
-              <FormControl sx={{ m: 1, width: "50ch" }} variant="outlined">
-                <OutlinedInput
-                  value={username}
-                  id="username"
-                  onChange={(e) => setUsername(e.target.value)}
-                  aria-describedby="fullname"
-                  inputProps={{
-                    "aria-label": "fullname",
-                  }}
-                />
-                <FormHelperText id="fullname">Fullname</FormHelperText>
-              </FormControl>
-            </div>
-            <div>
-              <FormControl sx={{ m: 1, width: "50ch" }} variant="outlined">
-                <RadioGroup
-                  row
-                  aria-labelledby="gender"
-                  defaultValue={gender}
-                  name="radio-buttons-group"
-                  onChange={(e) => setGender(e.target.value)}
-                >
-                  <FormControlLabel
-                    value="female"
-                    control={<Radio />}
-                    label="Female"
-                  />
-                  <FormControlLabel
-                    value="male"
-                    control={<Radio />}
-                    label="Male"
-                  />
-                  <FormControlLabel
-                    value="other"
-                    control={<Radio />}
-                    label="Other"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </div>
-            <div>
-              <FormControl sx={{ m: 1, width: "50ch" }} variant="outlined">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker />
-                </LocalizationProvider>
-              </FormControl>
-            </div>
-            <div>
-              <FormControl sx={{ m: 1, width: "50ch" }} variant="outlined">
-                <OutlinedInput
-                  type="number"
-                  id="phone"
-                  value={phone}
-                  onChange={(e) => setPhone(+e.target.value)}
-                  aria-describedby="phone"
-                  inputProps={{
-                    "aria-label": "phone",
-                  }}
-                />
-                <FormHelperText id="height">Phone Number</FormHelperText>
-              </FormControl>
-            </div>
-            <div>
-              <Button type="submit" variant="outlined">
-                ADD DATA
-              </Button>
-            </div>
-          </Box>
-        </form>
-      )}
-      {openedTab === 1 && (
-        <form onSubmit={submitVitalSignsForm}>
-          <Box
-            component="main"
-            sx={{
-              textAlign: "center",
-              flexGrow: 1,
-              p: 3,
-            }}
-          >
-            <h1>ENTER PATIENTS VITAL SIGNS</h1>
-            <div>
-              <FormControl sx={{ m: 1, width: "20ch" }} variant="outlined">
-                <OutlinedInput
-                  id="sbp"
-                  type="number"
-                  onChange={(e) => setSbp(e.target.value)}
-                  aria-describedby="sbp"
-                  inputProps={{
-                    "aria-label": "sbp",
-                  }}
-                />
-                <FormHelperText id="sbp">SBP</FormHelperText>
-              </FormControl>
-              <FormControl sx={{ m: 1, width: "20ch" }} variant="outlined">
-                <OutlinedInput
-                  id="dbp"
-                  type="number"
-                  onChange={(e) => setDbp(e.target.value)}
-                  aria-describedby="dbp"
-                  inputProps={{
-                    "aria-label": "dbp",
-                  }}
-                />
-                <FormHelperText id="dbp">DBP</FormHelperText>
-              </FormControl>
-              <FormControl sx={{ m: 1, width: "20ch" }} variant="outlined">
-                <OutlinedInput
-                  id="pulse_pressure"
-                  type="number"
-                  onChange={(e) => setPulsePressure(e.target.value)}
-                  aria-describedby="pulse_pressure"
-                  inputProps={{
-                    "aria-label": "pulse_pressure",
-                  }}
-                />
-                <FormHelperText id="pulse_pressure">
-                  Pulse Pressure
-                </FormHelperText>
-              </FormControl>
-            </div>
-            <div>
-              <FormControl sx={{ m: 1, width: "40ch" }} variant="outlined">
-                <OutlinedInput
-                  id="pulse"
-                  type="number"
-                  onChange={(e) => setPulse(e.target.value)}
-                  aria-describedby="pulse"
-                  inputProps={{
-                    "aria-label": "pulse",
-                  }}
-                />
-                <FormHelperText id="pulse">Pulse</FormHelperText>
-              </FormControl>
-            </div>
-            <div>
-              <FormControl sx={{ m: 1, width: "40ch" }} variant="outlined">
-                <OutlinedInput
-                  id="respiratory_rate"
-                  type="number"
-                  onChange={(e) => setRespiratoryRate(e.target.value)}
-                  aria-describedby="respiratory_rate"
-                  inputProps={{
-                    "aria-label": "respiratory_rate",
-                  }}
-                />
-                <FormHelperText id="respiratory_rate">
-                  Respiratory Rate
-                </FormHelperText>
-              </FormControl>
-            </div>
-            <div>
-              <FormControl sx={{ m: 1, width: "40ch" }} variant="outlined">
-                <OutlinedInput
-                  id="temperature"
-                  type="number"
-                  onChange={(e) => setTemperature(e.target.value)}
-                  aria-describedby="temperature"
-                  inputProps={{
-                    "aria-label": "temperature",
-                  }}
-                />
-                <FormHelperText id="temperature">Temperature</FormHelperText>
-              </FormControl>
-            </div>
-            <div>
-              <FormControl sx={{ m: 1, width: "40ch" }} variant="outlined">
-                <OutlinedInput
-                  id="oxygen"
-                  type="number"
-                  onChange={(e) => setOxygenSaturation(e.target.value)}
-                  aria-describedby="oxygen"
-                  inputProps={{
-                    "aria-label": "oxygen",
-                  }}
-                />
-                <FormHelperText id="oxygen">Oxygen Saturation</FormHelperText>
-              </FormControl>
-            </div>
-            <div>
-              <FormControl sx={{ m: 1, width: "40ch" }} variant="outlined">
-                <OutlinedInput
-                  id="glucose"
-                  type="number"
-                  onChange={(e) => setBloodGlucose(e.target.value)}
-                  aria-describedby="glucose"
-                  inputProps={{
-                    "aria-label": "glucose",
-                  }}
-                />
-                <FormHelperText id="glucose">
-                  Blood Glucose Level
-                </FormHelperText>
-              </FormControl>
-            </div>
-            <Button type="submit" variant="outlined">
-              ADD DATA
-            </Button>
-          </Box>
-        </form>
-      )}
-    </Box>
+    //     {openedTab === 0 && (
+    //       <Box
+    //         component="main"
+    //         sx={{
+    //           color: "white",
+    //           textAlign: "center",
+    //           flexGrow: 1,
+    //           p: 3,
+    //         }}
+    //       >
+    //         <Toolbar />
+    //         <NewPatientForm />
+    //       </Box>
+    //       // <form onSubmit={submitBasicDetailsForm}>
+    //       //   <Box
+    //       // component="main"
+    //       // sx={{
+    //       //   color:'white',
+    //       //   textAlign: "center",
+    //       //   flexGrow: 1,
+    //       //   p: 3,
+    //       // }}
+    //       //   >
+    //       //     <h1>ENTER PATIENTS PERSONAL DETAILS</h1>
+    //       //     <div>
+    //       //       <FormControl sx={{ m: 1, width: "50ch", color:'white' }} variant="outlined">
+    //       //         <OutlinedInput
+    //       //           value={username}
+    //       //           id="username"
+    //       //           onChange={(e) => setUsername(e.target.value)}
+    //       //           aria-describedby="fullname"
+    //       //           inputProps={{
+    //       //             "aria-label": "fullname",
+    //       //           }}
+    //       //         />
+    //       //         <FormHelperText id="fullname">Fullname</FormHelperText>
+    //       //       </FormControl>
+    //       //     </div>
+    //       //     <div>
+    //       //       <FormControl sx={{ m: 1, width: "50ch" }} variant="outlined">
+    //       //         <RadioGroup
+    //       //           row
+    //       //           aria-labelledby="gender"
+    //       //           defaultValue={gender}
+    //       //           name="radio-buttons-group"
+    //       //           onChange={(e) => setGender(e.target.value)}
+    //       //         >
+    //       //           <FormControlLabel
+    //       //             value="female"
+    //       //             control={<Radio />}
+    //       //             label="Female"
+    //       //           />
+    //       //           <FormControlLabel
+    //       //             value="male"
+    //       //             control={<Radio />}
+    //       //             label="Male"
+    //       //           />
+    //       //           <FormControlLabel
+    //       //             value="other"
+    //       //             control={<Radio />}
+    //       //             label="Other"
+    //       //           />
+    //       //         </RadioGroup>
+    //       //       </FormControl>
+    //       //     </div>
+    //       //     <div>
+    //       //       <FormControl sx={{ m: 1, width: "50ch" }} variant="outlined">
+    //       //         <LocalizationProvider dateAdapter={AdapterDayjs}>
+    //       //           <DatePicker />
+    //       //         </LocalizationProvider>
+    //       //       </FormControl>
+    //       //     </div>
+    //       //     <div>
+    //       //       <FormControl sx={{ m: 1, width: "50ch" }} variant="outlined">
+    //       //         <OutlinedInput
+    //       //           type="number"
+    //       //           id="phone"
+    //       //           value={phone}
+    //       //           onChange={(e) => setPhone(+e.target.value)}
+    //       //           aria-describedby="phone"
+    //       //           inputProps={{
+    //       //             "aria-label": "phone",
+    //       //           }}
+    //       //         />
+    //       //         <FormHelperText id="height">Phone Number</FormHelperText>
+    //       //       </FormControl>
+    //       //     </div>
+    //       //     <div>
+    //       //       <Button type="submit" variant="outlined">
+    //       //         ADD DATA
+    //       //       </Button>
+    //       //     </div>
+    //       //   </Box>
+    //       // </form>
+    //     )}
+    //     {openedTab === 1 && (
+    //       <form onSubmit={submitVitalSignsForm}>
+    //         <Box
+    //           component="main"
+    //           sx={{
+    //             textAlign: "center",
+    //             flexGrow: 1,
+    //             p: 3,
+    //           }}
+    //         >
+    //           <h1>ENTER PATIENTS VITAL SIGNS</h1>
+    //           <div>
+    //             <FormControl sx={{ m: 1, width: "20ch" }} variant="outlined">
+    //               <OutlinedInput
+    //                 id="sbp"
+    //                 type="number"
+    //                 onChange={(e) => setSbp(e.target.value)}
+    //                 aria-describedby="sbp"
+    //                 inputProps={{
+    //                   "aria-label": "sbp",
+    //                 }}
+    //               />
+    //               <FormHelperText id="sbp">SBP</FormHelperText>
+    //             </FormControl>
+    //             <FormControl sx={{ m: 1, width: "20ch" }} variant="outlined">
+    //               <OutlinedInput
+    //                 id="dbp"
+    //                 type="number"
+    //                 onChange={(e) => setDbp(e.target.value)}
+    //                 aria-describedby="dbp"
+    //                 inputProps={{
+    //                   "aria-label": "dbp",
+    //                 }}
+    //               />
+    //               <FormHelperText id="dbp">DBP</FormHelperText>
+    //             </FormControl>
+    //             <FormControl sx={{ m: 1, width: "20ch" }} variant="outlined">
+    //               <OutlinedInput
+    //                 id="pulse_pressure"
+    //                 type="number"
+    //                 onChange={(e) => setPulsePressure(e.target.value)}
+    //                 aria-describedby="pulse_pressure"
+    //                 inputProps={{
+    //                   "aria-label": "pulse_pressure",
+    //                 }}
+    //               />
+    //               <FormHelperText id="pulse_pressure">
+    //                 Pulse Pressure
+    //               </FormHelperText>
+    //             </FormControl>
+    //           </div>
+    //           <div>
+    //             <FormControl sx={{ m: 1, width: "40ch" }} variant="outlined">
+    //               <OutlinedInput
+    //                 id="pulse"
+    //                 type="number"
+    //                 onChange={(e) => setPulse(e.target.value)}
+    //                 aria-describedby="pulse"
+    //                 inputProps={{
+    //                   "aria-label": "pulse",
+    //                 }}
+    //               />
+    //               <FormHelperText id="pulse">Pulse</FormHelperText>
+    //             </FormControl>
+    //           </div>
+    //           <div>
+    //             <FormControl sx={{ m: 1, width: "40ch" }} variant="outlined">
+    //               <OutlinedInput
+    //                 id="respiratory_rate"
+    //                 type="number"
+    //                 onChange={(e) => setRespiratoryRate(e.target.value)}
+    //                 aria-describedby="respiratory_rate"
+    //                 inputProps={{
+    //                   "aria-label": "respiratory_rate",
+    //                 }}
+    //               />
+    //               <FormHelperText id="respiratory_rate">
+    //                 Respiratory Rate
+    //               </FormHelperText>
+    //             </FormControl>
+    //           </div>
+    //           <div>
+    //             <FormControl sx={{ m: 1, width: "40ch" }} variant="outlined">
+    //               <OutlinedInput
+    //                 id="temperature"
+    //                 type="number"
+    //                 onChange={(e) => setTemperature(e.target.value)}
+    //                 aria-describedby="temperature"
+    //                 inputProps={{
+    //                   "aria-label": "temperature",
+    //                 }}
+    //               />
+    //               <FormHelperText id="temperature">Temperature</FormHelperText>
+    //             </FormControl>
+    //           </div>
+    //           <div>
+    //             <FormControl sx={{ m: 1, width: "40ch" }} variant="outlined">
+    //               <OutlinedInput
+    //                 id="oxygen"
+    //                 type="number"
+    //                 onChange={(e) => setOxygenSaturation(e.target.value)}
+    //                 aria-describedby="oxygen"
+    //                 inputProps={{
+    //                   "aria-label": "oxygen",
+    //                 }}
+    //               />
+    //               <FormHelperText id="oxygen">Oxygen Saturation</FormHelperText>
+    //             </FormControl>
+    //           </div>
+    //           <div>
+    //             <FormControl sx={{ m: 1, width: "40ch" }} variant="outlined">
+    //               <OutlinedInput
+    //                 id="glucose"
+    //                 type="number"
+    //                 onChange={(e) => setBloodGlucose(e.target.value)}
+    //                 aria-describedby="glucose"
+    //                 inputProps={{
+    //                   "aria-label": "glucose",
+    //                 }}
+    //               />
+    //               <FormHelperText id="glucose">
+    //                 Blood Glucose Level
+    //               </FormHelperText>
+    //             </FormControl>
+    //           </div>
+    //           <Button type="submit" variant="outlined">
+    //             ADD DATA
+    //           </Button>
+    //         </Box>
+    //       </form>
+    //     )}
+    //   </Box>
   );
 }
