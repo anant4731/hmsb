@@ -21,6 +21,6 @@ export default function Page({ params }) {
         <br></br>
         <br></br>
         <br></br>
-        <h2>Patient's USERNAME - {username}</h2>
+        <h2>USERNAME - {username}</h2>
     </div>)
 }

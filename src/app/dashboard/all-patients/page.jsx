@@ -25,12 +25,12 @@ export default function AllPatients() {
       setPatients(temp);
     }
     fetchPatients();
-  }) 
+  });
 
   return (
     <Box textAlign={"center"}>
       <Toolbar />
-      
+
       <Toolbar />
       <Box
         sx={{
@@ -41,7 +41,7 @@ export default function AllPatients() {
         }}
       >
         {patients.map((text, index) => (
-          <Link href={`/dashboard/${text.address}`}>
+          <Link key={text.address} href={`/dashboard/${text.address}`}>
             <Box
               sx={{
                 backgroundColor: "black",
@@ -50,7 +50,6 @@ export default function AllPatients() {
                 alignItems: "center",
                 borderRadius: "20px",
               }}
-              key={text.address}
               height={"200px"}
               width={"450px"}
             >
