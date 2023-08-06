@@ -9,7 +9,7 @@ export default function BasicDetailsForm(props) {
     const data = {
       username,
       age,
-      phoneNumber,
+      phoneNumber : Number(phoneNumber), 
       gender,
     };
     props.onSaveData(data);

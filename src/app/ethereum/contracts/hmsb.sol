@@ -4,8 +4,8 @@ pragma solidity ^0.8.9;
 contract Factory {
     address payable[] public allPatients;
 
-    function createNewPatient() public returns (address) {
-        address newPatient = address(new Patient());
+    function createNewPatient(string memory _username, string memory _gender, uint _phone) public returns (address) {
+        address newPatient = address(new Patient(_username, _gender, _phone));
         allPatients.push(payable(newPatient));
         return newPatient;
     }
@@ -16,61 +16,65 @@ contract Factory {
 }
 
 contract Patient {
-    constructor() {}
-
     string public username;
     string public gender;
     uint public phone;
-    uint public sbp;
-    uint public dbp;
-    uint public pulsePressure;
-    uint public pulse;
-    uint public respiratoryRate;
-    uint public temperature;
-    uint public oxygenSaturation;
-    uint public bloodGlucose;
-
-    function setUsername(string memory _username) public {
+    constructor(string memory _username, string memory _gender, uint _phone) {
         username = _username;
-    }
-
-    function setGender(string memory _gender) public {
         gender = _gender;
-    }
-
-    function setPhone(uint _phone) public {
         phone = _phone;
     }
 
-    function setSbp(uint _sbp) public {
-        sbp = _sbp;
-    }
+    // uint public sbp;
+    // uint public dbp;
+    // uint public pulsePressure;
+    // uint public pulse;
+    // uint public respiratoryRate;
+    // uint public temperature;
+    // uint public oxygenSaturation;
+    // uint public bloodGlucose;
 
-    function setDbp(uint _dbp) public {
-        dbp = _dbp;
-    }
+    // function setUsername(string memory _username) public {
+    //     username = _username;
+    // }
 
-    function setPulsePressure(uint _pulsePressure) public {
-        pulsePressure = _pulsePressure;
-    }
+    // function setGender(string memory _gender) public {
+    //     gender = _gender;
+    // }
 
-    function setPulse(uint _pulse) public {
-        pulse = _pulse;
-    }
+    // function setPhone(uint _phone) public {
+    //     phone = _phone;
+    // }
 
-    function setRespiratoryRate(uint _respiratoryRate) public {
-        respiratoryRate = _respiratoryRate;
-    }
+    // function setSbp(uint _sbp) public {
+    //     sbp = _sbp;
+    // }
 
-    function setTemperature(uint _temperature) public {
-        temperature = _temperature;
-    }
+    // function setDbp(uint _dbp) public {
+    //     dbp = _dbp;
+    // }
 
-    function setOxygenSaturation(uint _oxygenSaturation) public {
-        oxygenSaturation = _oxygenSaturation;
-    }
+    // function setPulsePressure(uint _pulsePressure) public {
+    //     pulsePressure = _pulsePressure;
+    // }
 
-    function setBloodGlucose(uint _bloodGlucose) public {
-        bloodGlucose = _bloodGlucose;
-    }
+    // function setPulse(uint _pulse) public {
+    //     pulse = _pulse;
+    // }
+
+    // function setRespiratoryRate(uint _respiratoryRate) public {
+    //     respiratoryRate = _respiratoryRate;
+    // }
+
+    // function setTemperature(uint _temperature) public {
+    //     temperature = _temperature;
+    // }
+
+    // function setOxygenSaturation(uint _oxygenSaturation) public {
+    //     oxygenSaturation = _oxygenSaturation;
+    // }
+
+    // function setBloodGlucose(uint _bloodGlucose) public {
+    //     bloodGlucose = _bloodGlucose;
+    // }
 }
