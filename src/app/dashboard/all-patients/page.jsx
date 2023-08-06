@@ -18,14 +18,15 @@ export default function AllPatients() {
         const pat = patient(p[i]);
         const username = await pat.methods.username().call();
         const gender = await pat.methods.gender().call();
-        const phone = await pat.methods.phone().call();
+        const phone = Number(await pat.methods.phone().call());
+        console.log(Number(phone))
         // setPatients([...patients, username]);
         temp.push({ username, address: p[i], gender, phone });
       }
       setPatients(temp);
     }
     fetchPatients();
-  });
+  }, []);
 
   return (
     <Box textAlign={"center"}>
