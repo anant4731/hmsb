@@ -9,19 +9,21 @@ const Hero = () => {
       <div className={classes.container}>
         <div className={classes.wrapper}>
           <div className={classes.heroLeftContent}>
-            <h1 className={classes.heading}>Donate Blood, <br/> save life!</h1>
+            <h1 className={classes.heading}>
+              Empowering Healthcare with <br />
+              Trustworthy Data!
+            </h1>
             <p className={classes.intro}>
-              At BPositiv, we are dedicated to ensuring that patients in need have access to life-saving blood products.
+              A Blockchain-Powered Patient Records Solution.
             </p>
-            <Button to={'/dashboard'} title="DASHBOARD"/>
+            <Button to={"/dashboard"} title="DASHBOARD" />
           </div>
           <div className={classes.heroanimation}>
-            <Image height={400} alt="hero" src={heroAnimation}/>
+            <Image height={400} alt="hero" src={heroAnimation} />
           </div>
         </div>
       </div>
     </React.Fragment>
-    
   );
 };
 
