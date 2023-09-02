@@ -81,6 +81,7 @@ export default function Navbar(props) {
                 backgroundColor: "white",
                 color: "black",
                 margin: "0 15px",
+                ":hover": { backgroundColor: "transparent", color: "white" },
               }}
             >
               CONNECT WALLET

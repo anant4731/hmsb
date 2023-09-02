@@ -1,28 +1,29 @@
 import React from "react";
 import BasicDetailsForm from "./BasicDetailsForm";
-import classes from "./NewPatientForm.module.css";
+import VitalDetailsForm from "./VitalsForm";
 
+import classes from "./NewPatientForm.module.css";
 import web3 from "@/app/web3";
 import factory from "@/app/ethereum/factory";
-import VitalDetailsForm from "./VitalsForm";
 
 export default function NewPatientForm() {
   const [page, setPage] = React.useState(1);
+  const [loading, setLoading] = React.useState(false);
 
   const increasePageHandler = () => {
-    if(page >= 2) {
+    if (page >= 2) {
       setPage(2);
       return;
     }
-    setPage((prevPage) => (prevPage + 1));
-  }
+    setPage((prevPage) => prevPage + 1);
+  };
   const decreasePageHandler = () => {
-    if(page <= 1) {
+    if (page <= 1) {
       setPage(1);
       return;
     }
-    setPage((prevPage) => (prevPage - 1));
-  }
+    setPage((prevPage) => prevPage - 1);
+  };
 
   const [formData, setFormData] = React.useState({});
   const handleSaveData = (data) => {
@@ -30,25 +31,41 @@ export default function NewPatientForm() {
   };
 
   const submitFormHandler = async () => {
-    console.log(formData);
+    setLoading(true);
     try {
       const accounts = await web3.eth.getAccounts();
       await factory.methods
         .createNewPatient(
           formData.username,
           formData.gender,
-          formData.phoneNumber
+          formData.phoneNumber,
+          formData.age,
+          formData.sbp,
+          formData.dbp,
+          formData.pulsePressure,
+          formData.pulse,
+          formData.respiratoryRate,
+          formData.temperature,
+          formData.oxygenSaturation,
+          formData.bloodGlucose
         )
         .send({ from: accounts[0] });
     } catch (err) {
       console.log(err);
     }
+    setLoading(false);
   };
 
   return (
     <div className={classes.container}>
-      {page == 1 && <BasicDetailsForm onSaveData={handleSaveData} />}
-      {page == 2 && <VitalDetailsForm onSaveData={handleSaveData} />}
+      {loading ? (
+        <h3>Please Wait...</h3>
+      ) : (
+        <React.Fragment>
+          {page == 1 && <BasicDetailsForm onSaveData={handleSaveData} />}
+          {page == 2 && <VitalDetailsForm onSaveData={handleSaveData} />}
+        </React.Fragment>
+      )}
       <div className={classes.form_footer}>
         <button
           type="button"

@@ -12,7 +12,6 @@ export default function SearchPatient() {
     const Router = useRouter();
 
   const [address, setAddress] = React.useState("");
-  const [username, setUsername] = React.useState("");
 
   const addressInvalidToast = () => {
     toast.error("Invalid User Address!", {
@@ -23,11 +22,7 @@ export default function SearchPatient() {
     let allPatients = [];
     allPatients = await factory.methods.getAllPatients().call();
     if (allPatients.includes(address)) {
-      const patientContract = patient(address);
-      const _username = await patientContract.methods.username().call();
       Router.push(`/dashboard/${address}`)
-      console.log(_username);
-      setUsername(_username);
     } else {
       addressInvalidToast();
     }

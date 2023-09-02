@@ -1,18 +1,79 @@
 import React from "react";
+import { toast } from "react-toastify";
+
 import classes from "./BasicDetails.module.css";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function BasicDetailsForm(props) {
+  const usernameInvalidToast = () => {
+    toast.error("Invalid Username!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  const ageInvalidToast = () => {
+    toast.error("Invalid Age!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  const phoneInvalidToast = () => {
+    toast.error("Invalid Phone Number!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  const genderInvalidToast = () => {
+    toast.error("Invalid Gender!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+
+  const saveSuccessfulToast = () => {
+    toast.success("Data Saved!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
   const [username, setUsername] = React.useState("");
   const [age, setAge] = React.useState("");
   const [phoneNumber, setPhoneNumber] = React.useState("");
   const [gender, setGender] = React.useState("");
   const saveDataHandler = () => {
+    if (username.trim() === "") {
+      usernameInvalidToast();
+      return;
+    }
+    if (
+      Number(age) >= 110 ||
+      Number(age) < 0 ||
+      Number(age) === NaN ||
+      age.trim() === ""
+    ) {
+      ageInvalidToast();
+      return;
+    }
+    if (
+      phoneNumber.length > 10 ||
+      phoneNumber.length < 4 ||
+      Number(age) === NaN ||
+      age.trim() === ""
+    ) {
+      phoneInvalidToast();
+      return;
+    }
+    if (
+      (gender !== "male" && gender !== "female" && gender !== "others") ||
+      gender.trim() === ""
+    ) {
+      console.log(gender)
+      genderInvalidToast();
+      return;
+    }
     const data = {
       username,
       age,
-      phoneNumber : Number(phoneNumber), 
+      phoneNumber: Number(phoneNumber),
       gender,
     };
     props.onSaveData(data);
+    saveSuccessfulToast();
   };
   return (
     <>
