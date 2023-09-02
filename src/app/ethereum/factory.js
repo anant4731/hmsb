@@ -3,7 +3,7 @@ import compiledFactory from "@/app/ethereum/build/Factory.json";
 
 const factory = new web3.eth.Contract(
   compiledFactory.abi,
-  "0xc7F23ac5080B034c0d38a26438e1F059Bb108aD3"
+  "0x44a9034e3aeD37D843206e461c6927BFd1F29B62"
 );
 
 export default factory;

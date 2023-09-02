@@ -8,6 +8,7 @@ import Link from "next/link";
 
 export default function AllPatients() {
   const [patients, setPatients] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     async function fetchPatients() {
@@ -23,7 +24,9 @@ export default function AllPatients() {
         // setPatients([...patients, username]);
         temp.push({ username, address: p[i], gender, phone });
       }
+      setLoading(true);
       setPatients(temp);
+      setLoading(false);
     }
     fetchPatients();
   }, []);
@@ -33,7 +36,7 @@ export default function AllPatients() {
       <Toolbar />
 
       <Toolbar />
-      <Box
+      {loading ? <h3>Please Wait...</h3> : <Box
         sx={{
           display: "flex",
           justifyContent: "space-evenly",
@@ -61,7 +64,7 @@ export default function AllPatients() {
             </Box>
           </Link>
         ))}
-      </Box>
+      </Box>}
     </Box>
   );
 }

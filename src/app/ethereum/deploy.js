@@ -1,7 +1,6 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const { Web3 } = require("web3");
 const compiledFactory = require("./build/Factory.json");
-
 const provider = new HDWalletProvider(
   "venue embark ahead alert illegal object citizen bottom split dust caught style",
   // remember to change this to your own phrase!
