@@ -2,10 +2,8 @@ const HDWalletProvider = require("@truffle/hdwallet-provider");
 const { Web3 } = require("web3");
 const compiledFactory = require("./build/Factory.json");
 const provider = new HDWalletProvider(
-  "venue embark ahead alert illegal object citizen bottom split dust caught style",
-  // remember to change this to your own phrase!
+  "wealth snow reason float skill key claw fly mutual undo mandate attitude",
   "https://sepolia.infura.io/v3/0f6a34a23b974fa3a05a4e8f70472aba"
-  // remember to change this to your own endpoint!
 );
 const web3 = new Web3(provider);
 

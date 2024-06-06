@@ -1,6 +1,8 @@
-import GithubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { connect } from "@/db/dbconfig";
+import bcrypt from "bcryptjs";
+import Admin from "@/models/admin";
+connect();
 export const options = {
   providers: [
     CredentialsProvider({
@@ -16,25 +18,26 @@ export const options = {
         },
       },
       async authorize(credentials) {
-        const user = {
-          id: "1",
-          name: "Anant",
-          email: "anantchauhan4731@gmail.com",
-        };
-        if (user) {
-          return user;
+        const username = credentials.username;
+        const password = credentials.password;
+        const admin = await Admin.findOne({ username });
+        if (admin) {
+          const isPasswordCorrect = await bcrypt.compare(
+            password,
+            admin.password
+          );
+          if (isPasswordCorrect) {
+            console.log(isPasswordCorrect);
+            return admin;
+          } else {
+            console.log("Incorrect password");
+            return null;
+          }
         } else {
+          console.log("User not found");
           return null;
         }
       },
-    }),
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
     }),
   ],
 };

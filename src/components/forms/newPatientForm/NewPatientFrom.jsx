@@ -5,6 +5,7 @@ import VitalDetailsForm from "./VitalsForm";
 import classes from "./NewPatientForm.module.css";
 import web3 from "@/app/web3";
 import factory from "@/app/ethereum/factory";
+import { CircularProgress } from "@mui/material";
 
 export default function NewPatientForm() {
   const [page, setPage] = React.useState(1);
@@ -33,6 +34,16 @@ export default function NewPatientForm() {
   const submitFormHandler = async () => {
     setLoading(true);
     try {
+      const res = await fetch("/api/patients/newPatient", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({ data: formData }),
+      });
+      console.log(res);
       const accounts = await web3.eth.getAccounts();
       await factory.methods
         .createNewPatient(
@@ -59,7 +70,7 @@ export default function NewPatientForm() {
   return (
     <div className={classes.container}>
       {loading ? (
-        <h3>Please Wait...</h3>
+        <CircularProgress />
       ) : (
         <React.Fragment>
           {page == 1 && <BasicDetailsForm onSaveData={handleSaveData} />}

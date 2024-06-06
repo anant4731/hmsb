@@ -1,8 +1,8 @@
 import React from "react";
 import classes from "./Hero.module.css";
 import Button from "../button/Button";
-import heroAnimation from "@/helpers/assets/Hero_Animation.png";
-import Image from "next/image";
+import heroAnimation from "@/helpers/assets/hero_animation.json"
+import Lottie from "lottie-react";
 const Hero = () => {
   return (
     <React.Fragment>
@@ -19,7 +19,7 @@ const Hero = () => {
             <Button to={"/dashboard"} title="DASHBOARD" />
           </div>
           <div className={classes.heroanimation}>
-            <Image height={400} alt="hero" src={heroAnimation} />
+            <Lottie animationData={heroAnimation} />
           </div>
         </div>
       </div>

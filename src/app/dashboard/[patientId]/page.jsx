@@ -16,24 +16,59 @@ export default function Page({ params }) {
   const [oxygenSaturation, setOxygenSaturation] = React.useState("");
   const [bloodGlucose, setBloodGlucose] = React.useState("");
   const patientId = params.patientId;
+  const [address, setAddress] = React.useState(patientId);
   React.useEffect(() => {
+    let name,
+      gender,
+      phone,
+      age,
+      sbp,
+      dbp,
+      pulse,
+      respiratoryRate,
+      temperature,
+      oxygenSaturation,
+      bloodGlucose;
     const fetchPatient = async () => {
-      const fetchedPatient = await patient(patientId);
-      const name = await fetchedPatient.methods.username().call();
-      const gender = await fetchedPatient.methods.gender().call();
-      const phone = await fetchedPatient.methods.phone().call();
-      const age = await fetchedPatient.methods.age().call();
-      const sbp = await fetchedPatient.methods.sbp().call();
-      const dbp = await fetchedPatient.methods.dbp().call();
-      const pulse = await fetchedPatient.methods.pulse().call();
-      const respiratoryRate = await fetchedPatient.methods
-        .respiratoryRate()
-        .call();
-      const temperature = await fetchedPatient.methods.temperature().call();
-      const oxygenSaturation = await fetchedPatient.methods
-        .oxygenSaturation()
-        .call();
-      const bloodGlucose = await fetchedPatient.methods.bloodGlucose().call();
+      if (!patientId.startsWith("0000")) {
+        const fetchedPatient = await patient(patientId);
+        name = await fetchedPatient.methods.username().call();
+        gender = await fetchedPatient.methods.gender().call();
+        phone = await fetchedPatient.methods.phone().call();
+        age = await fetchedPatient.methods.age().call();
+        sbp = await fetchedPatient.methods.sbp().call();
+        dbp = await fetchedPatient.methods.dbp().call();
+        pulse = await fetchedPatient.methods.pulse().call();
+        respiratoryRate = await fetchedPatient.methods.respiratoryRate().call();
+        temperature = await fetchedPatient.methods.temperature().call();
+        oxygenSaturation = await fetchedPatient.methods
+          .oxygenSaturation()
+          .call();
+        bloodGlucose = await fetchedPatient.methods.bloodGlucose().call();
+      } else {
+        const email = patientId.substring(4);
+        const res = await fetch(
+          `/api/patients/fetch-patient/email?email=${email}`,
+          {
+            method: "GET",
+          }
+        );
+
+        const data = await res.json();
+        setAddress("FETCHED FROM DB NOT BLOCKCHAIN");
+        gender = data.data.gender;
+        name = data.data.username;
+        gender = data.data.gender;
+        phone = data.data.phoneNumber;
+        age = data.data.age;
+        sbp = data.data.sbp;
+        dbp = data.data.dbp;
+        pulse = data.data.pulse;
+        respiratoryRate = data.data.respiratoryRate;
+        temperature = data.data.temperature;
+        oxygenSaturation = data.data.oxygenSaturation;
+        bloodGlucose = data.data.bloodGlucose;
+      }
       setUsername(name.toUpperCase());
       setGender(gender.toUpperCase());
       setPhone(Number(phone));
@@ -55,7 +90,7 @@ export default function Page({ params }) {
         <h3>{username} Record</h3>
         <div className={classes.single_field}>
           <p>CONTRACT ADDRESS</p>
-          <h5>{patientId}</h5>
+          <h5>{address}</h5>
         </div>
         <div className={classes.single_field}>
           <p>NAME</p>
