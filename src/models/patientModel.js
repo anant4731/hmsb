@@ -1,23 +1,16 @@
 import mongoose from "mongoose";
 
 const patientSchema = new mongoose.Schema({
-    username : {
-        type : String, 
-        required : [true, "Please provide a username"], 
-        unique: true,
-    },
-    weight : {
-        type : Number, 
-        required : [true, "Please provide a age"], 
-        
-    },
-    height : {
-        type : Number, 
-        required : [true, "Please provide a height"], 
-        
-    }
-})
+  username: {
+    type: String,
+    required: [true, "Please provide a username"],
+    unique: true,
+  },
+  data: {
+    type: Object,
+  },
+});
 
-const Patient = mongoose.models.newpatients || mongoose.model("patients", patientSchema)
+const Patient = mongoose.models.patients || mongoose.model("patients", patientSchema);
 
-export default Patient
+export default Patient;

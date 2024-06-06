@@ -17,11 +17,36 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Link from "next/link";
+import Web3 from "web3";
 
 const drawerWidth = 240;
 const navItems = ["CONNECT WALLET", "LOGIN"];
 
 export default function Navbar(props) {
+  const connectToMetaMask = async () => {
+    if (typeof window !== "undefined") {
+      if (window.ethereum || window.web3) {
+        try {
+          let web3;
+          if (window.ethereum) {
+            web3 = new Web3(window.ethereum);
+            await window.ethereum.enable(); // Request account access if needed
+          } else if (window.web3) {
+            web3 = new Web3(window.web3.currentProvider);
+          }
+
+          const accounts = await web3.eth.getAccounts();
+          console.log("accounts =>", accounts);
+          console.log(accounts[0]);
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        alert("Install MetaMask first");
+      }
+    }
+  };
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -76,19 +101,34 @@ export default function Navbar(props) {
             <Link href={"/"}>HMSB</Link>
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            <Button
-              sx={{
-                backgroundColor: "white",
-                color: "black",
-                margin: "0 15px",
-                ":hover": { backgroundColor: "transparent", color: "white" },
-              }}
-            >
-              CONNECT WALLET
-            </Button>
+            <Link href={"/dashboard/add-admin"}>
+              <Button
+                sx={{
+                  backgroundColor: "white",
+                  color: "black",
+                  margin: "0 15px",
+                  ":hover": {
+                    backgroundColor: "transparent",
+                    color: "white",
+                    border: "1px solid white",
+                  },
+                }}
+              >
+                ADD AN ADMIN
+              </Button>
+            </Link>
             <Link href={"/api/auth/signout"}>
               <Button
-                sx={{ backgroundColor: "red", color: "#fff", margin: "0 15px" }}
+                sx={{
+                  backgroundColor: "red",
+                  color: "#fff",
+                  margin: "0 15px",
+                  ":hover": {
+                    backgroundColor: "transparent",
+                    color: "white",
+                    border: "1px solid red",
+                  },
+                }}
               >
                 LOGOUT
               </Button>

@@ -1,29 +1,26 @@
 import { connect } from "@/db/dbconfig";
-import NewPatient from "@/models/patientModel";
+import Patient from "@/models/patientModel";
 import { NextRequest, NextResponse } from "next/server";
 
 connect();
 
 export async function POST(request) {
-    try {
-        const reqBody = await request.json();
-        const { username, height, weight } = reqBody;
+  try {
+    const reqBody = await request.json();
+    console.log(reqBody);
 
-        // validation
+    const patient = Patient({
+      username: reqBody.data.username,
+      data: reqBody.data,
+    });
+    console.log(patient);
+    await patient.save();
 
-        const patient = await NewPatient.findOne({ username })
-        if (patient) {
-            return NextResponse.json({ error: "Patient already exists" }, { status: 400 })
-        }
-        console.log(patient);
-
-        const nPatient = new NewPatient({ username, height, weight })
-        const savedNewPatient = await nPatient.save();
-        console.log(savedNewPatient);
-
-        return NextResponse.json({ message: "New Patient created Successfully", success: true, savedNewPatient })
-
-    } catch (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 })
-    }
+    return NextResponse.json({
+      message: "New Patient created Successfully",
+      success: true,
+    });
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 }

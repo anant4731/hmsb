@@ -81,7 +81,7 @@ export default function BasicDetailsForm(props) {
         <h2>PERSONAL DETAILS</h2>
         <div className={classes.single_input__div}>
           <div className={classes.input__div}>
-            <label htmlFor="username">USERNAME : </label>
+            <label htmlFor="username">EMAIL : </label>
             <input
               type="text"
               onChange={(e) => setUsername(e.target.value)}

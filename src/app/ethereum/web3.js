@@ -8,7 +8,7 @@ if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
 } else { 
   // we are on the Server or Metamask is not running.
   const provider = new Web3.providers.HttpProvider(
-    'https://rinkeby.infura.io/Pq2fD7W38PK3alrIp3aU'
+    'https://sepolia.infura.io/v3/42e02b49638343bfa66c0f72f302669f'
   )
   web3 = new Web3(provider)
 }
