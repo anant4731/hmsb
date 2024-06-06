@@ -93,7 +93,7 @@ export default function dashboard() {
           <Box sx={{ display: "flex", flexDirection: "column", width: "50%" }}>
             <CardContent sx={{ textAlign: "center" }}>
               <Typography sx={{ fontSize: 40 }} color="white" gutterBottom>
-                SEARCH A PATIENT'S DATA
+                SEARCH A PATIENT&apos;S DATA
               </Typography>
               <Typography sx={{ fontSize: 13 }} color={"white"}>
                 Find patient records in the BLOCKCHAIN.
@@ -132,7 +132,7 @@ export default function dashboard() {
           <Box sx={{ display: "flex", flexDirection: "column", width: "50%" }}>
             <CardContent sx={{ textAlign: "center" }}>
               <Typography sx={{ fontSize: 40 }} color="white" gutterBottom>
-                GET ALL PATIENT'S DATA
+                GET ALL PATIENT&apos;S DATA
               </Typography>
               <Typography sx={{ fontSize: 13 }} color={"white"}>
                 View a list of all patients in the BLOCKCHAIN.

@@ -23,7 +23,7 @@ const addAdminPage = () => {
     });
     const data = await res.json();
     console.log(data);
-    Router.push(`/dashboard`);
+    Router.push(`/`);
   };
   return (
     <div className={classes.container}>

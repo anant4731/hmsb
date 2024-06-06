@@ -74,7 +74,6 @@ export default function SearchPatient() {
     if (value === 0 && allPatients.includes(address)) {
       Router.push(`/dashboard/${address}`);
     } else if (value === 1) {
-      console.log("asdjnasjkdnasjdnbasjdkajsnd");
       const res = await fetch(`/api/patients/fetch-patient/email?email=${email}`, {
         method: "GET",
       });
