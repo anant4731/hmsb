@@ -6,6 +6,7 @@ const { Box, Button } = require("@mui/material");
 
 const addAdminPage = () => {
   const [username, setUsername] = useState("");
+  console.log("hello");
   const [password, setPassword] = useState("");
   const submitFormHandler = async (e) => {
     e.preventDefault();
