@@ -2,11 +2,9 @@
 
 import { useState } from "react";
 import classes from "./addAdmin.module.css";
-import { useRouter } from "next/navigation";
 const { Box, Button } = require("@mui/material");
 
 const addAdminPage = () => {
-  const Router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const submitFormHandler = async (e) => {
@@ -23,7 +21,6 @@ const addAdminPage = () => {
     });
     const data = await res.json();
     console.log(data);
-    Router.push(`/`);
   };
   return (
     <div className={classes.container}>
